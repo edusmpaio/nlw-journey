@@ -110,9 +110,15 @@ export function App() {
                 <Dialog.Trigger asChild>
                   <button type="button" className="flex items-center gap-2">
                     <UserRoundPlusIcon className="size-5 text-zinc-400" />
-                    <span className="text-left text-lg text-zinc-400">
-                      Quem estará na viagem?
-                    </span>
+                    {emailsToInvite.length > 0 ? (
+                      <span className="text-left text-lg text-zinc-100">
+                        {emailsToInvite.length} pessoa(s) convidada(s)
+                      </span>
+                    ) : (
+                      <span className="text-left text-lg text-zinc-400">
+                        Quem estará na viagem?
+                      </span>
+                    )}
                   </button>
                 </Dialog.Trigger>
 
