@@ -2,6 +2,8 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { MailIcon, UserIcon, XIcon } from 'lucide-react'
 import { FormEvent } from 'react'
 
+import { Button } from '../../components/button'
+
 interface ConfirmTripModalProps {
   createTrip: (event: FormEvent<HTMLFormElement>) => void
 }
@@ -61,12 +63,9 @@ export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="mt-3 flex h-11 w-full items-center justify-center rounded-lg bg-lime-300 font-medium text-lime-950 hover:bg-lime-400"
-          >
+          <Button type="submit" size="full" className="mt-3">
             Confirmar criação da viagem
-          </button>
+          </Button>
         </form>
       </Dialog.Content>
     </Dialog.Portal>

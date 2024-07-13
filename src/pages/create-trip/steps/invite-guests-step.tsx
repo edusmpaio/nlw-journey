@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { ArrowRightIcon, UserRoundPlusIcon } from 'lucide-react'
 import { FormEvent } from 'react'
 
+import { Button } from '../../../components/button'
 import { ConfirmTripModal } from '../confirm-trip-modal'
 import { InviteGuestsModal } from '../invite-guests-modal'
 
@@ -45,13 +46,10 @@ export function InviteGuestsStep({
 
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button
-            disabled={emailsToInvite.length < 1}
-            className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 enabled:hover:bg-lime-400 disabled:opacity-60"
-          >
+          <Button disabled={emailsToInvite.length < 1}>
             Confirmar viagem
             <ArrowRightIcon className="size-5" />
-          </button>
+          </Button>
         </Dialog.Trigger>
 
         <ConfirmTripModal createTrip={createTrip} />

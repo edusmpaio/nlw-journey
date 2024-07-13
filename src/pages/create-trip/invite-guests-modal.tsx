@@ -2,6 +2,8 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { AtSignIcon, PlusIcon, XIcon } from 'lucide-react'
 import { FormEvent } from 'react'
 
+import { Button } from '../../components/button'
+
 interface InviteGuestsModalProps {
   emailsToInvite: string[]
   removeEmailToInvite: (emailToRemove: string) => void
@@ -69,13 +71,10 @@ export function InviteGuestsModal({
             placeholder="Digite o e-mail do convidado"
             className="flex-1 bg-transparent text-base leading-[140%] text-zinc-100 placeholder-zinc-400 outline-none"
           />
-          <button
-            type="submit"
-            className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400"
-          >
+          <Button type="submit">
             Convidar
             <PlusIcon className="size-5" />
-          </button>
+          </Button>
         </form>
       </Dialog.Content>
     </Dialog.Portal>

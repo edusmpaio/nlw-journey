@@ -1,6 +1,8 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { CalendarIcon, TagIcon, XIcon } from 'lucide-react'
 
+import { Button } from '../../components/button'
+
 export function CreateActivityModal() {
   return (
     <Dialog.Portal>
@@ -48,12 +50,9 @@ export function CreateActivityModal() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="mt-3 flex h-11 w-full items-center justify-center rounded-lg bg-lime-300 font-medium text-lime-950 hover:bg-lime-400"
-          >
+          <Button type="submit" size="full" className="mt-3">
             Salvar atividade
-          </button>
+          </Button>
         </form>
       </Dialog.Content>
     </Dialog.Portal>
