@@ -13,6 +13,9 @@ export default {
       backgroundImage: {
         pattern: 'url(/bg.webp)',
       },
+      gridTemplateColumns: {
+        main: '1fr 20rem',
+      },
     },
   },
   plugins: [],
