@@ -3,6 +3,7 @@ import { MailIcon, UserIcon, XIcon } from 'lucide-react'
 import { FormEvent } from 'react'
 
 import { Button } from '../../components/button'
+import { Input } from '../../components/input'
 
 interface ConfirmTripModalProps {
   createTrip: (event: FormEvent<HTMLFormElement>) => void
@@ -42,25 +43,19 @@ export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
 
         <form onSubmit={createTrip}>
           <div className="space-y-2">
-            <div className="flex h-14 items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
-              <UserIcon className="size-5 text-zinc-400" />
-              <input
-                type="text"
-                name="name"
-                placeholder="Seu nome completo"
-                className="flex-1 bg-transparent text-base leading-[140%] text-zinc-100 placeholder-zinc-400 outline-none"
-              />
-            </div>
+            <Input
+              type="text"
+              name="name"
+              placeholder="Seu nome completo"
+              icon={UserIcon}
+            />
 
-            <div className="flex h-14 items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
-              <MailIcon className="size-5 text-zinc-400" />
-              <input
-                type="email"
-                name="email"
-                placeholder="Seu e-mail pessoal"
-                className="flex-1 bg-transparent text-base leading-[140%] text-zinc-100 placeholder-zinc-400 outline-none"
-              />
-            </div>
+            <Input
+              type="email"
+              name="email"
+              placeholder="Seu e-mail pessoal"
+              icon={MailIcon}
+            />
           </div>
 
           <Button type="submit" size="full" className="mt-3">

@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { CalendarIcon, TagIcon, XIcon } from 'lucide-react'
 
 import { Button } from '../../components/button'
+import { Input } from '../../components/input'
 
 export function CreateActivityModal() {
   return (
@@ -28,26 +29,20 @@ export function CreateActivityModal() {
 
         <form>
           <div className="space-y-2">
-            <div className="flex h-14 items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
-              <TagIcon className="size-5 text-zinc-400" />
-              <input
-                type="text"
-                name="title"
-                placeholder="Qual a atividade?"
-                className="flex-1 bg-transparent text-base leading-[140%] text-zinc-100 placeholder-zinc-400 outline-none"
-              />
-            </div>
+            <Input
+              type="text"
+              name="title"
+              icon={TagIcon}
+              placeholder="Qual a atividade?"
+            />
 
-            <div className="flex h-14 flex-1 items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
-              <CalendarIcon className="size-5 text-zinc-400" />
-              <input
-                id="occurs_at"
-                type="datetime-local"
-                name="occurs_at"
-                placeholder="Data e horário da atividade"
-                className="flex-1 bg-transparent text-base leading-[140%] text-zinc-100 placeholder-zinc-400 outline-none"
-              />
-            </div>
+            <Input
+              icon={CalendarIcon}
+              id="occurs_at"
+              type="datetime-local"
+              name="occurs_at"
+              placeholder="Data e horário da atividade"
+            />
           </div>
 
           <Button type="submit" size="full" className="mt-3">
