@@ -1,15 +1,18 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { MailIcon, UserIcon, XIcon } from 'lucide-react'
-import { FormEvent } from 'react'
+import { FormEvent, useContext } from 'react'
 
 import { Button } from '../../components/button'
 import { Input } from '../../components/input'
+import { CreateTripContext } from '.'
 
 interface ConfirmTripModalProps {
   createTrip: (event: FormEvent<HTMLFormElement>) => void
 }
 
 export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
+  const { setOwnerName, setOwnerEmail } = useContext(CreateTripContext)
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/60" />
@@ -48,6 +51,7 @@ export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
               name="name"
               placeholder="Seu nome completo"
               icon={UserIcon}
+              onChange={(event) => setOwnerName(event.target.value)}
             />
 
             <Input
@@ -55,6 +59,7 @@ export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
               name="email"
               placeholder="Seu e-mail pessoal"
               icon={MailIcon}
+              onChange={(event) => setOwnerEmail(event.target.value)}
             />
           </div>
 

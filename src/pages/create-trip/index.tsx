@@ -1,14 +1,33 @@
-import { FormEvent, useState } from 'react'
+import { createContext, FormEvent, useState } from 'react'
+import { DateRange } from 'react-day-picker'
 import { useNavigate } from 'react-router-dom'
 
+import { api } from '../../lib/axios'
 import { DestinationAndDateStep } from './steps/destination-and-date-step'
 import { InviteGuestsStep } from './steps/invite-guests-step'
+
+interface CreateTripContextType {
+  setDestination: (destination: string) => void
+  setOwnerName: (ownerName: string) => void
+  setOwnerEmail: (ownerEmail: string) => void
+  setEventStartAndEndDates: (dates: DateRange | undefined) => void
+  eventStartAndEndDates: DateRange | undefined
+}
+
+export const CreateTripContext = createContext({} as CreateTripContextType)
 
 export function CreateTripPage() {
   const navigate = useNavigate()
 
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
+
+  const [destination, setDestination] = useState('')
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
+    DateRange | undefined
+  >()
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
 
   function openGuestsInput() {
     setIsGuestsInputOpen(true)
@@ -43,10 +62,37 @@ export function CreateTripPage() {
     setEmailsToInvite(newEmailList)
   }
 
-  function createTrip(event: FormEvent<HTMLFormElement>) {
+  async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    navigate('/trips/123')
+    if (!destination) {
+      return
+    }
+
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      return
+    }
+
+    if (emailsToInvite.length === 0) {
+      return
+    }
+
+    if (!ownerName || !ownerEmail) {
+      return
+    }
+
+    const response = await api.post('/trips', {
+      destination,
+      starts_at: eventStartAndEndDates.from,
+      ends_at: eventStartAndEndDates.to,
+      emails_to_invite: emailsToInvite,
+      owner_name: ownerName,
+      owner_email: ownerEmail,
+    })
+
+    const { tripId } = response.data
+
+    navigate(`/trips/${tripId}`)
   }
 
   return (
@@ -60,22 +106,32 @@ export function CreateTripPage() {
           </p>
         </div>
 
-        <div className="space-y-4">
-          <DestinationAndDateStep
-            isGuestsInputOpen={isGuestsInputOpen}
-            closeGuestsInput={closeGuestsInput}
-            openGuestsInput={openGuestsInput}
-          />
-
-          {isGuestsInputOpen && (
-            <InviteGuestsStep
-              addNewEmailToInvite={addNewEmailToInvite}
-              createTrip={createTrip}
-              emailsToInvite={emailsToInvite}
-              removeEmailToInvite={removeEmailToInvite}
+        <CreateTripContext.Provider
+          value={{
+            setDestination,
+            setOwnerName,
+            setOwnerEmail,
+            setEventStartAndEndDates,
+            eventStartAndEndDates,
+          }}
+        >
+          <div className="space-y-4">
+            <DestinationAndDateStep
+              isGuestsInputOpen={isGuestsInputOpen}
+              closeGuestsInput={closeGuestsInput}
+              openGuestsInput={openGuestsInput}
             />
-          )}
-        </div>
+
+            {isGuestsInputOpen && (
+              <InviteGuestsStep
+                addNewEmailToInvite={addNewEmailToInvite}
+                createTrip={createTrip}
+                emailsToInvite={emailsToInvite}
+                removeEmailToInvite={removeEmailToInvite}
+              />
+            )}
+          </div>
+        </CreateTripContext.Provider>
 
         <p className="text-sm text-zinc-500">
           Ao planejar sua viagem pela plann.er você automaticamente concorda

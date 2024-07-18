@@ -9,11 +9,12 @@ import {
   Settings2Icon,
   XIcon,
 } from 'lucide-react'
-import { useState } from 'react'
-import { DateRange, DayPicker } from 'react-day-picker'
+import { useContext } from 'react'
+import { DayPicker } from 'react-day-picker'
 
 import { Button } from '../../../components/button'
 import { Input } from '../../../components/input'
+import { CreateTripContext } from '..'
 
 interface DestinationAndDateStepProps {
   isGuestsInputOpen: boolean
@@ -26,9 +27,8 @@ export function DestinationAndDateStep({
   closeGuestsInput,
   openGuestsInput,
 }: DestinationAndDateStepProps) {
-  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
-    DateRange | undefined
-  >()
+  const { setDestination, setEventStartAndEndDates, eventStartAndEndDates } =
+    useContext(CreateTripContext)
 
   const displayedDate =
     eventStartAndEndDates &&
@@ -49,6 +49,7 @@ export function DestinationAndDateStep({
           placeholder="Para onde você vai?"
           className="text-lg"
           disabled={isGuestsInputOpen}
+          onChange={(event) => setDestination(event.target.value)}
         />
       </div>
 
