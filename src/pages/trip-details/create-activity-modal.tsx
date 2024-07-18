@@ -29,7 +29,7 @@ export function CreateActivityModal({
       occurs_at: occursAt,
     })
 
-    setisActivityModalOpen(false)
+    window.document.location.reload()
   }
 
   return (
