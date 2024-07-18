@@ -1,10 +1,37 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { CalendarIcon, TagIcon, XIcon } from 'lucide-react'
+import { FormEvent } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Button } from '../../components/button'
 import { Input } from '../../components/input'
+import { api } from '../../lib/axios'
 
-export function CreateActivityModal() {
+interface CreateActivityModalProps {
+  setisActivityModalOpen: (isOpen: boolean) => void
+}
+
+export function CreateActivityModal({
+  setisActivityModalOpen,
+}: CreateActivityModalProps) {
+  const { tripId } = useParams()
+
+  async function createActivity(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+
+    const title = data.get('title')?.toString()
+    const occursAt = data.get('occurs_at')?.toString()
+
+    await api.post(`/trips/${tripId}/activities`, {
+      title,
+      occurs_at: occursAt,
+    })
+
+    setisActivityModalOpen(false)
+  }
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/60" />
@@ -27,7 +54,7 @@ export function CreateActivityModal() {
           </Dialog.Description>
         </div>
 
-        <form>
+        <form onSubmit={createActivity}>
           <div className="space-y-2">
             <Input
               type="text"

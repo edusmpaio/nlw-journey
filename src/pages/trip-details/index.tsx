@@ -1,5 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '../../components/button'
 import { Activities } from './activities'
@@ -9,6 +10,8 @@ import { Guests } from './guests'
 import { ImportantLinks } from './important-links'
 
 export function TripDetailsPage() {
+  const [isActivityModalOpen, setisActivityModalOpen] = useState(false)
+
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
       <DestinationAndDateHeader />
@@ -18,7 +21,10 @@ export function TripDetailsPage() {
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
 
-            <Dialog.Root>
+            <Dialog.Root
+              open={isActivityModalOpen}
+              onOpenChange={setisActivityModalOpen}
+            >
               <Dialog.Trigger asChild>
                 <Button>
                   <PlusIcon className="size-5" />
@@ -26,7 +32,9 @@ export function TripDetailsPage() {
                 </Button>
               </Dialog.Trigger>
 
-              <CreateActivityModal />
+              <CreateActivityModal
+                setisActivityModalOpen={setisActivityModalOpen}
+              />
             </Dialog.Root>
           </div>
 
