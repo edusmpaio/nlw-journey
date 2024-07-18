@@ -1,31 +1,52 @@
-import { CircleDashedIcon, UserCogIcon } from 'lucide-react'
+import { CircleCheckIcon, CircleDashedIcon, UserCogIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Button } from '../../components/button'
+import { api } from '../../lib/axios'
+
+interface Participant {
+  id: string
+  name: string | null
+  email: string
+  is_confirmed: boolean
+}
 
 export function Guests() {
+  const { tripId } = useParams()
+  const [participants, setParticipants] = useState<Participant[]>([])
+
+  useEffect(() => {
+    api
+      .get(`/trips/${tripId}/participants`)
+      .then((response) => setParticipants(response.data.participants))
+  }, [tripId])
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Convidados</h2>
 
       <div className="space-y-5">
-        <div className="flex items-center justify-between">
-          <div className="max-w-60 space-y-1.5">
-            <span className="font-medium">Jessica White</span>
-            <span className="block truncate text-sm text-zinc-400">
-              jessica.white44@yahoo.com
-            </span>
+        {participants?.map((participant, index) => (
+          <div
+            key={participant.id}
+            className="flex items-center justify-between"
+          >
+            <div className="max-w-60 space-y-1.5">
+              <span className="block truncate font-medium">
+                {participant.name ?? `Convidado ${index}`}
+              </span>
+              <span className="block truncate text-sm text-zinc-400">
+                {participant.email}
+              </span>
+            </div>
+            {participant.is_confirmed ? (
+              <CircleCheckIcon className="size-5 text-lime-300" />
+            ) : (
+              <CircleDashedIcon className="size-5 text-zinc-400" />
+            )}
           </div>
-          <CircleDashedIcon className="size-5 text-zinc-400" />
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="max-w-60 space-y-1.5">
-            <span className="font-medium">Dr. Rita Pacocha</span>
-            <span className="block truncate text-sm text-zinc-400">
-              lacy.stiedemann@gmail.com
-            </span>
-          </div>
-          <CircleDashedIcon className="size-5 text-zinc-400" />
-        </div>
+        ))}
       </div>
 
       <Button size="full" variant="secondary">
