@@ -1,9 +1,11 @@
+import * as Dialog from '@radix-ui/react-dialog'
 import { CircleCheckIcon, CircleDashedIcon, UserCogIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Button } from '../../components/button'
 import { api } from '../../lib/axios'
+import { ManageGuestsModal } from './manage-guests-modal'
 
 interface Participant {
   id: string
@@ -49,10 +51,16 @@ export function Guests() {
         ))}
       </div>
 
-      <Button size="full" variant="secondary">
-        <UserCogIcon className="size-5" />
-        Gerenciar convidados
-      </Button>
+      <Dialog.Root>
+        <Dialog.Trigger asChild>
+          <Button size="full" variant="secondary">
+            <UserCogIcon className="size-5" />
+            Gerenciar convidados
+          </Button>
+        </Dialog.Trigger>
+
+        <ManageGuestsModal />
+      </Dialog.Root>
     </div>
   )
 }
