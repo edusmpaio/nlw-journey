@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { MailIcon, UserIcon, XIcon } from 'lucide-react'
+import { LoaderCircleIcon, MailIcon, UserIcon, XIcon } from 'lucide-react'
 import { FormEvent, useContext } from 'react'
 
 import { Button } from '../../components/button'
@@ -11,7 +11,8 @@ interface ConfirmTripModalProps {
 }
 
 export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
-  const { setOwnerName, setOwnerEmail } = useContext(CreateTripContext)
+  const { setOwnerName, setOwnerEmail, isLoading } =
+    useContext(CreateTripContext)
 
   return (
     <Dialog.Portal>
@@ -63,8 +64,17 @@ export function ConfirmTripModal({ createTrip }: ConfirmTripModalProps) {
             />
           </div>
 
-          <Button type="submit" size="full" className="mt-3">
-            Confirmar criação da viagem
+          <Button
+            type="submit"
+            size="full"
+            className="mt-3"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <LoaderCircleIcon className="size-5 animate-spin" />
+            ) : (
+              'Confirmar criação da viagem'
+            )}
           </Button>
         </form>
       </Dialog.Content>

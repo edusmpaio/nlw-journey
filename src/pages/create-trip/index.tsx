@@ -12,6 +12,7 @@ interface CreateTripContextType {
   setOwnerEmail: (ownerEmail: string) => void
   setEventStartAndEndDates: (dates: DateRange | undefined) => void
   eventStartAndEndDates: DateRange | undefined
+  isLoading: boolean
 }
 
 export const CreateTripContext = createContext({} as CreateTripContextType)
@@ -20,6 +21,7 @@ export function CreateTripPage() {
   const navigate = useNavigate()
 
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const [destination, setDestination] = useState('')
   const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
@@ -81,18 +83,24 @@ export function CreateTripPage() {
       return
     }
 
-    const response = await api.post('/trips', {
-      destination,
-      starts_at: eventStartAndEndDates.from,
-      ends_at: eventStartAndEndDates.to,
-      emails_to_invite: emailsToInvite,
-      owner_name: ownerName,
-      owner_email: ownerEmail,
-    })
+    try {
+      setIsLoading(true)
+      const response = await api.post('/trips', {
+        destination,
+        starts_at: eventStartAndEndDates.from,
+        ends_at: eventStartAndEndDates.to,
+        emails_to_invite: emailsToInvite,
+        owner_name: ownerName,
+        owner_email: ownerEmail,
+      })
 
-    const { tripId } = response.data
+      const { tripId } = response.data
 
-    navigate(`/trips/${tripId}`)
+      navigate(`/trips/${tripId}`)
+    } catch (err) {
+      setIsLoading(false)
+      console.log(err)
+    }
   }
 
   return (
@@ -113,6 +121,7 @@ export function CreateTripPage() {
             setOwnerEmail,
             setEventStartAndEndDates,
             eventStartAndEndDates,
+            isLoading,
           }}
         >
           <div className="space-y-4">
