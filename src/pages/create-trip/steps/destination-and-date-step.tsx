@@ -2,6 +2,7 @@ import 'react-day-picker/dist/style.css'
 
 import * as Dialog from '@radix-ui/react-dialog'
 import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import {
   ArrowRightIcon,
   CalendarIcon,
@@ -34,9 +35,11 @@ export function DestinationAndDateStep({
     eventStartAndEndDates &&
     eventStartAndEndDates.from &&
     eventStartAndEndDates.to
-      ? format(eventStartAndEndDates.from, "d' de 'LLL")
+      ? format(eventStartAndEndDates.from, "d' de 'LLL", { locale: ptBR })
           .concat(' até ')
-          .concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
+          .concat(
+            format(eventStartAndEndDates.to, "d' de 'LLL", { locale: ptBR }),
+          )
       : null
 
   return (
